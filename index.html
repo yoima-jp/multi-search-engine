@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>マルチ検索エンジン</title>
+  <style>
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      
+    }
+    .search-bar input[type="text"] {
+      flex: 2; /* 横幅を調整 */
+      padding: 5px;
+      border-radius: 10px; /* 角丸にする */
+      font-size: 20px; /* 大きさを調整 */
+      
+    }
+    .search-bar button {
+      margin-left: 5px;
+    }
+    .search-buttons {
+      display: flex;
+      justify-content: center;
+    }
+    .search-buttons button {
+      margin: 5px;
+    }
+
+    .button {
+  border-radius: 20px;
+  background: transparent;
+  border: none;
+}
+.button:hover {
+  background: rgb(245, 245, 245);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .container {
+    width: 70%;
+    padding: 80px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    color: #333333;
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  p {
+    color: #666666;
+    font-size: 18px;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  .search-bar input[type="text"] {
+    flex: 2;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: 2px solid #ccc;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .search-bar input[type="text"]:focus {
+    border-color: #007bff;
+    width: 700px;
+  padding: 10px;
+
+  }
+
+  .search-bar button {
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .search-bar button:hover {
+    background-color: #0056b3;
+  }
+/* 設定ボタンと設定メニューのスタイル */
+.settings-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.settings-menu {
+  display: none;
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* アイコンボタンのスタイル */
+.icon-button {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 設定ボタンと設定メニューのスタイル */
+.settings-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.settings-menu {
+  display: none;
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+}
+
+/* メニューを表示するためのクラスを追加 */
+.show-menu {
+  display: block;
+}
+
+
+/* メニューを表示するためのクラスを追加 */
+.show-menu {
+  display: block;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>マルチ検索エンジン</h1>
+    <div class="search-bar">
+      <input type="text" id="query" placeholder="入力する..." onkeydown="handleKeyPress(event)">
+    </div>
+    <div class="search-buttons">
+      <button class="button" onclick="search()"><img src="https://www.google.co.jp/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" width="130" height="44" alt="Google"></button>
+      <button class="button" onclick="search()"><img src="https://s.yimg.jp/c/logo/f/2.0/chiebukuro_r_34_2x.png" width="130" height="22" alt="Yahoo"></button>
+      <button class="button" onclick="search()"><img src="https://1000logos.net/wp-content/uploads/2023/05/Bing-Chat-Logo.png" width="130" height="73" alt="Bing"></button>
+      <button class="button" onclick="search()"><img src="https://www.phind.com/images/phind_v2.svg" width="130" height="40" alt="Phind"></button>
+      <button class="button" onclick="searchAll()">一気に検索</button>
+    </div>
+    <p style="font-size: 10px;">※一気に検索を利用するにはポップアウトを許可してください。</p>
+<!-- 設定ボタン（歯車アイコン） -->
+<div class="settings-button">
+  <button class="icon-button" onclick="toggleSettingsMenu()">
+    <i class="fas fa-cogs"></i>
+  </button>
+</div>
+
+
+<!-- 設定メニュー -->
+
+<div class="settings-menu" id="settingsMenu">
+  <label for="clear-toggle">入力欄をクリアしない</label>
+  <input type="checkbox" id="clear-toggle" onchange="toggleClearInput()">
+  デフォルトの検索エンジン
+  <select id="search-engine">
+    <option value="google">Google</option>
+    <option value="yahoo">Yahoo</option>
+    <option value="bing">Bing</option>
+    <option value="phind">Phind</option>
+  </select>
+</div>
+
+
+  <script>
+    
+    var clearInputEnabled = true;
+
+    function search() {
+      var query = document.getElementById('query').value;
+      var searchEngine = document.getElementById('search-engine').value;
+      var url;
+
+      if (searchEngine === 'google') {
+        url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+      } else if (searchEngine === 'yahoo') {
+        url = 'https://chiebukuro.yahoo.co.jp/search?p=' + encodeURIComponent(query);
+      } else if (searchEngine === 'bing') {
+        url = 'https://www.bing.com/search?form=NTPCHT&showconv=1&sendquery=1&q=' + encodeURIComponent(query);
+      } else if (searchEngine === 'phind') {
+        url = 'https://www.phind.com/search?q=' + encodeURIComponent(query) + '&source=searchbox';
+      }
+
+      window.open(url, '_blank');
+      if (clearInputEnabled) {
+        clearInput();
+      }
+    }
+
+    function searchAll() {
+      var query = document.getElementById('query').value;
+      var googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+      var yahooUrl = 'https://chiebukuro.yahoo.co.jp/search?p=' + encodeURIComponent(query);
+      var bingUrl = 'https://www.bing.com/search?form=NTPCHT&showconv=1&sendquery=1&q=' + encodeURIComponent(query);
+      var phindUrl = 'https://www.phind.com/search?q=' + encodeURIComponent(query) + '&source=searchbox';
+      window.open(googleUrl, '_blank');
+      window.open(yahooUrl, '_blank');
+      window.open(bingUrl, '_blank');
+      window.open(phindUrl, '_blank');
+      if (clearInputEnabled) {
+        clearInput();
+      }
+    }
+
+    function clearInput() {
+      document.getElementById('query').value = '';
+    }
+
+    function toggleClearInput() {
+      clearInputEnabled = !clearInputEnabled;
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === "Enter") {
+        search();
+        event.preventDefault();
+      }
+    }
+
+    // 設定メニューを表示/非表示にする関数
+function toggleSettingsMenu() {
+  var menu = document.getElementById('settingsMenu');
+  menu.classList.toggle('show-menu');
+}
+
+  </script>
+  
+</body>
+</html>
